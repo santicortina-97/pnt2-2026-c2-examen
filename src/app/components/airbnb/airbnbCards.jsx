@@ -1,7 +1,8 @@
 'use client';
 import "./airbnblist.css";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-export function AirbnbCards({listing}){
+export function AirbnbCards({listing, isFavorite, onToggleFavorite}){
     const photo = listing.images?.picture_url;
 
     return (
@@ -12,6 +13,11 @@ export function AirbnbCards({listing}){
                     ) : 
                         <div className="airbnb-image-placeholder"><p>Sin imagen</p></div>
                     )}
+                    <button type="button" className="favorite-button" onClick={() => onToggleFavorite(listing._id)}>
+                    {isFavorite 
+                        ? <FaHeart className="favorite-icon favorited"/>
+                        : <FaRegHeart className="favorite-icon not-favorited"/>}
+                        </button>
                 </div>
             <div className="airbnb-content">
                 <h3 className="airbnb-name">{listing.name}</h3>

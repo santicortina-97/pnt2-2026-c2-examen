@@ -6,11 +6,17 @@ import { useEffect, useState } from "react";
 
 const API_URL = "https://backendairbnb-befph8eegzabfudb.eastus2-01.azurewebsites.net/api/listings";
 const PAGE_SIZE = 100;
+const FAVORITES_KEY = "favorites"
 
 export default function AirbnbList(){
     const [listings, setListings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favorites, setFavorites] = useState([]);
+
+    useEffect(() =>{
+        setFavorites(JSON.parse(localStorage.getItem(FAVORITES_KEY)) ?? []);
+    }, []);
 
     useEffect(() => {
         setLoading(true);
@@ -27,6 +33,16 @@ export default function AirbnbList(){
         .catch(error => setError(error))
         .finally(() => setLoading(false));
     }, []);
+
+    const toggleFavorite = (id) => {
+        setFavorites(prev => {
+            const next = prev.includes(id)
+                ? prev.filter(favId => favId !== id)
+                : [...prev, id];
+            localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+            return next;
+        })
+    }
     
 
     return (
@@ -52,7 +68,7 @@ export default function AirbnbList(){
                 {!loading && !error && (
                     <div className="airbnb-grid">
                     {listings.map(listing => (
-                        <AirbnbCards key={listing._id} listing={listing} />
+                        <AirbnbCards key={listing._id} listing={listing} isFavorite={favorites.includes(listing._id)} onToggleFavorite={toggleFavorite}/>
                     ))}
                     </div>
                 )}
