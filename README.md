@@ -1,4 +1,5 @@
 # PROGRAMACION DE NUEVAS TECNOLOGIAS 2
+Santiago Manuel Cortina
 
 ## Instrucciones de resolución de examen
 
