@@ -1,8 +1,11 @@
 'use client';
+import Link from "next/link";
 import "./airbnblist.css";
+import { useRouter } from "next/navigation";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export function AirbnbCards({listing, isFavorite, onToggleFavorite}){
+    const router = useRouter();
     const photo = listing.images?.picture_url;
 
     return (
@@ -22,6 +25,11 @@ export function AirbnbCards({listing, isFavorite, onToggleFavorite}){
             <div className="airbnb-content">
                 <h3 className="airbnb-name">{listing.name}</h3>
                 <p className="airbnb-summary">{listing.summary}</p>
+                <div className="airbnb-detail-actions">
+                    <Link href={`/airbnb/${listing._id}`} className="back-button">
+                        Ver Detalle
+                    </Link>
+                </div>
                 <a href={listing.listing_url} target="_blank" className="airbnb-url">Ver en Airbnb</a>
             </div>
 
